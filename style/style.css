@@ -1,0 +1,223 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /*Colors */
+  --color1: #010d26;
+  --color2: #a2bdf2;
+  --color3: #bbcdf2;
+  --color4: #4384d9;
+  --color5: #6da7f2;
+  --color6: rgb(228, 228, 228);
+
+  /*Fonts */
+  --font-destaque: "Holtwood One SC";
+  --font-padrao: "Montserrat", sans-serif;
+}
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+header {
+    background-color: var(--color3);
+height: 120px;
+  display: flex;
+ 
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+width: 35%;
+max-width: 300px;
+
+    margin-left: 10px;
+
+  }
+  ul {
+    display: flex;
+    list-style: none;
+    margin-right: 30px;
+    align-items: center;
+
+    justify-content: space-between;
+
+    li {
+      margin-top: 20px;
+      margin-left: 20px;
+      position: relative;
+
+      a {
+        text-decoration: none;
+        color: var(--color1);
+        font-family: var(--font-padrao);
+        font-size: 0.9em;
+        position: relative;
+        transition: 0.3s;
+        outline: none;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 0;
+          height: 1px;
+          background-color: var(--color1);
+          transition: width 0.3s ease;
+        }
+
+        &:hover::after,
+        &:active::after {
+          width: 100%;
+        }
+      }
+
+      &:hover a,
+      &:active a {
+        color: var(--color1);
+        font-size: 1em;
+      }
+    }
+  }
+}
+/* Estilo do Slogan */
+.slogan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    background-color: var(--color3);
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+    border-bottom: 2px solid transparent; 
+    animation: bordaAnimada 1s infinite alternate; 
+}
+
+/* Animação da borda */
+@keyframes bordaAnimada {
+    0% {
+        border-bottom-color: transparent; 
+    }
+    100% {
+        border-bottom-color: var(--color2); 
+    }
+}
+
+/* Estilo do Texto que Rola */
+.text-slogan {
+    display: inline-block;
+    padding-left: 100%; /* Começa o texto fora da tela */
+    animation: rolarTexto 15s linear infinite; /* Animação de rolar */
+}
+
+.text-slogan p {
+    font-family: var(--font-padrao);
+    font-size: 0.9em;
+    color: var(--color1);
+    display: inline-block;
+}
+
+/* Animação de Rolagem do Texto */
+@keyframes rolarTexto {
+    0% {
+        transform: translateX(100%); /* Começa à direita da tela */
+    }
+    100% {
+        transform: translateX(-100%); /* Termina à esquerda da tela */
+    }
+}
+
+/* Estilo do Banner */
+.banner {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    height: 300px; 
+    width: 100vw;
+    overflow: hidden; 
+ background-image: url(/images/aviao-banner.png), linear-gradient(to left, var(--color1), var(--color3));
+    background-repeat: no-repeat;
+    background-size: contain; 
+    background-position: right, center; 
+
+}
+
+
+.txt-end-btn {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#typing-text {
+    padding:10px;
+    font-size: 1.2em;
+    margin-bottom: 20px; 
+    white-space: nowrap;
+    overflow: hidden; 
+  font-family: var(--font-padrao);
+  font-weight: bolder;
+    animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
+    margin-bottom: 30px; 
+}
+
+
+
+.cta-button {
+    background-color: #007BFF; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    font-size: .9em; 
+    display: inline-block; 
+    cursor: pointer; 
+    transition:  0.3s;
+    font-family: var(--font-padrao);
+}
+
+.cta-button:hover {
+    box-shadow: 2px 2px 5px #333;
+}
+
+
+.destaque {
+    color: white; 
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+/* Animação de Digitação */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%; 
+    }
+}
+
+/* Animação do Cursor */
+@keyframes blink-cursor {
+    from, to {
+        border-right-color: transparent;
+    }
+    50% {
+        border-right-color: black; 
+    }
+}
+
