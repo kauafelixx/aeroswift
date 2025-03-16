@@ -19,6 +19,8 @@
   /*Fonts */
   --font-destaque: "Holtwood One SC";
   --font-padrao: "Montserrat", sans-serif;
+
+  --shadow: 2px 2px 6px #00000067;
 }
 body {
   height: 100vh;
@@ -27,20 +29,22 @@ body {
 }
 
 header {
-    background-color: var(--color3);
-height: 120px;
+  background-color: var(--color3);
+  height: 120px;
   display: flex;
- 
+
+  width: 100%;
+
   justify-content: space-between;
   align-items: center;
 
   img {
-width: 35%;
-max-width: 300px;
+    width: 35%;
+    max-width: 300px;
 
     margin-left: 10px;
-
   }
+
   ul {
     display: flex;
     list-style: none;
@@ -90,134 +94,253 @@ max-width: 300px;
 }
 /* Estilo do Slogan */
 .slogan {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    background-color: var(--color3);
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-    position: relative;
-    border-bottom: 2px solid transparent; 
-    animation: bordaAnimada 1s infinite alternate; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  background-color: var(--color3);
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid transparent;
+  animation: bordaAnimada 1s infinite alternate;
 }
 
 /* Animação da borda */
 @keyframes bordaAnimada {
-    0% {
-        border-bottom-color: transparent; 
-    }
-    100% {
-        border-bottom-color: var(--color2); 
-    }
+  0% {
+    border-bottom-color: transparent;
+  }
+  100% {
+    border-bottom-color: var(--color2);
+  }
 }
 
 /* Estilo do Texto que Rola */
 .text-slogan {
-    display: inline-block;
-    padding-left: 100%; /* Começa o texto fora da tela */
-    animation: rolarTexto 15s linear infinite; /* Animação de rolar */
+  display: inline-block;
+  padding-left: 100%; /* Começa o texto fora da tela */
+  animation: rolarTexto 15s linear infinite; /* Animação de rolar */
 }
 
 .text-slogan p {
-    font-family: var(--font-padrao);
-    font-size: 0.9em;
-    color: var(--color1);
-    display: inline-block;
+  font-family: var(--font-padrao);
+  font-size: 0.9em;
+  color: var(--color1);
+  display: inline-block;
 }
 
 /* Animação de Rolagem do Texto */
 @keyframes rolarTexto {
-    0% {
-        transform: translateX(100%); /* Começa à direita da tela */
-    }
-    100% {
-        transform: translateX(-100%); /* Termina à esquerda da tela */
-    }
+  0% {
+    transform: translateX(100%); /* Começa à direita da tela */
+  }
+  100% {
+    transform: translateX(-100%); /* Termina à esquerda da tela */
+  }
 }
 
 /* Estilo do Banner */
 .banner {
-    display: flex;
-    flex-direction: row;
-    align-items: center; 
-    height: 300px; 
-    width: 100vw;
-    overflow: hidden; 
- background-image: url(/images/aviao-banner.png), linear-gradient(to left, var(--color1), var(--color3));
-    background-repeat: no-repeat;
-    background-size: contain; 
-    background-position: right, center; 
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 300px;
+  width: 100vw;
+  overflow: hidden;
+  background-image: url(/images/aviao-banner.png),
+    linear-gradient(to left, var(--color1), var(--color4));
+  background-repeat: no-repeat;
+  background-size: cover, cover;
+  filter: drop-shadow(1px 1px 5px #333);
+  background-position: right, center;
+  box-shadow: var(--shadow);
 }
 
-
 .txt-end-btn {
-    width: 100%; 
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
 
 #typing-text {
-    padding:10px;
-    font-size: 1.2em;
-    margin-bottom: 20px; 
-    white-space: nowrap;
-    overflow: hidden; 
+  background-color: var(--color3);
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 1em;
+  margin-bottom: 20px;
+  white-space: nowrap;
+  overflow: hidden;
   font-family: var(--font-padrao);
   font-weight: bolder;
-    animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
-    margin-bottom: 30px; 
+  animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
+  margin-bottom: 30px;
 }
 
-
-
 .cta-button {
-    background-color: #007BFF; 
-    color: white; 
-    padding: 10px 20px; 
-    text-decoration: none; 
-    border-radius: 5px; 
-    font-size: .9em; 
-    display: inline-block; 
-    cursor: pointer; 
-    transition:  0.3s;
-    font-family: var(--font-padrao);
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9em;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: var(--font-padrao);
 }
 
 .cta-button:hover {
-    box-shadow: 2px 2px 5px #333;
+  box-shadow: 2px 2px 5px #333;
 }
-
 
 .destaque {
-    color: white; 
-    text-decoration: underline;
-    font-weight: bold;
+  color: var(--color1);
+  text-decoration: underline;
+  font-weight: bold;
 }
-
 
 /* Animação de Digitação */
 @keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%; 
-    }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* Animação do Cursor */
 @keyframes blink-cursor {
-    from, to {
-        border-right-color: transparent;
-    }
-    50% {
-        border-right-color: black; 
-    }
+  from,
+  to {
+    border-right-color: transparent;
+  }
+  50% {
+    border-right-color: black;
+  }
 }
 
+.about {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  height: 400px;
+  width: 100vw;
+  margin: auto;
+
+  .about-img {
+    background-image: url(/images/about-img.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 50%;
+    height: 400px;
+  }
+  .about-text {
+    width: 50%;
+    font-family: var(--font-padrao);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 15px;
+    line-height: 25px;
+    font-size: 0.9em;
+
+    p {
+      border-left: 2px solid var(--color4);
+      padding-left: 10px;
+    }
+
+    h2 {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.testimonials {
+  background-color: var(--color3);
+
+  font-family: var(--font-padrao);
+  padding: 20px;
+  width: 100vw;
+  margin: auto;
+
+  h2 {
+    font-size: 1.2em;
+    font-weight: 550;
+    margin-bottom: 15px;
+  }
+}
+.testimonial {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.7em;
+  line-height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .person1,
+  .person2 {
+    padding: 10px;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--color4);
+    }
+  }
+}
+
+.locate {
+  font-size: 0.7em;
+  font-weight: 400;
+  padding: 10px;
+  list-style-type: none;
+  text-decoration: underline var(--color4);
+}
+
+footer {
+  padding: 30px;
+  background-color: var(--color1);
+  color: white;
+  font-family: var(--font-padrao);
+  font-size: 0.8em;
+
+  p {
+    font-weight: 500;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    text-decoration: underline var(--color3);
+  }
+  ul {
+    list-style-type: none;
+
+    a {
+      color: var(--color3);
+    }
+    li {
+      padding: 2px;
+      font-size: 0.85em;
+    }
+  }
+
+  .social {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 30px;
+      margin: 5px;
+    }
+  }
+}
