@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - AeroSwift</title>
+    <link rel="stylesheet" href="style/login-register.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro</h2>
+        <form id="registerForm">
+            
+            <input type="email" id="newEmail" required placeholder="Email">
+
+           
+            <input type="password" id="newPassword" required placeholder="Senha">
+
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+    </div>
+
+    <script>
+        // Simulação de cadastro
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Evita o envio do formulário
+
+            const email = document.getElementById('newEmail').value;
+            const password = document.getElementById('newPassword').value;
+
+            // Verifica se os campos estão preenchidos
+            if (email && password) {
+                alert('Cadastro realizado com sucesso!');
+                // Redireciona para a página de login
+                window.location.href = 'login.html';
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        });
+    </script>
+</body>
+</html>
