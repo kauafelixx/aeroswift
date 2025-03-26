@@ -168,11 +168,15 @@ header {
 }
 
 #typing-text {
-  background-color: var(--color3);
-  width: 100%;
+  border-radius: 8px;
+  
+  background-color: #010d26e3;
+  color: #fff;
+  font-variant: small-caps;
+  width: 110%;
   text-align: center;
-  padding: 10px;
-  font-size: 1em;
+  padding: 15px;
+  font-size: 1.3em;
   margin-bottom: 20px;
   white-space: nowrap;
   overflow: hidden;
@@ -180,8 +184,41 @@ header {
   font-weight: bolder;
   animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
   margin-bottom: 30px;
+
+ 
 }
 
+.banner-text{
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  margin: 20px;
+  
+  /* Borda estática (opcional) */
+  border: 1px solid transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px; /* Altura da borda animada */
+    background: linear-gradient(90deg, transparent, #bbcdf2, transparent);
+    background-size: 200% 100%;
+    animation: rolarBorda 3s linear infinite;
+  }
+}
+
+
+@keyframes rolarBorda {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
 .cta-button {
   background-color: #007bff;
   color: white;
@@ -200,7 +237,7 @@ header {
 }
 
 .destaque {
-  color: var(--color1);
+  color: var(--color2);
   text-decoration: underline;
   font-weight: bold;
 }
