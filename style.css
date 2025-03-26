@@ -169,9 +169,8 @@ header {
 
 #typing-text {
   border-radius: 8px;
-  
-  background-color: #010d26e3;
-  color: #fff;
+  background-color: #010d26be;
+  color: white;
   font-variant: small-caps;
   width: 110%;
   text-align: center;
@@ -184,17 +183,14 @@ header {
   font-weight: bolder;
   animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
   margin-bottom: 30px;
-
- 
 }
 
-.banner-text{
+.banner-text {
   position: relative;
   display: inline-block;
   padding: 10px;
   margin: 20px;
-  
-  /* Borda estática (opcional) */
+
   border: 1px solid transparent;
 
   &::before {
@@ -203,13 +199,12 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    height: 2px; /* Altura da borda animada */
+    height: 2px;
     background: linear-gradient(90deg, transparent, #bbcdf2, transparent);
     background-size: 200% 100%;
     animation: rolarBorda 3s linear infinite;
   }
 }
-
 
 @keyframes rolarBorda {
   0% {
