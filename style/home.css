@@ -1,105 +1,122 @@
-/* Estilos Gerais */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+
+:root {
+    /*Colors */
+    --color1: #010d26;
+    --color2: #a2bdf2;
+    --color3: #bbcdf2;
+    --color4: #4384d9;
+    --color5: #6da7f2;
+    --color6: rgb(228, 228, 228);
+  
+    /*Fonts */
+    --font-destaque: "Holtwood One SC";
+    --font-padrao: "Montserrat", sans-serif;
+    --shadow: 2px 2px 6px #00000067;
+  }
+
+body {
+    background-color: var(--color3);
+    padding: 20px;
+    color: var(--color1);
+}
+    
+    h1{
+        text-align: center;
+        margin-bottom: 20px;
+color: var(--color1);
+    }
+p{
+    margin-bottom:20px;
+    text-align: center;
+
 }
 
 .container {
-    background-color: white;
-    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-    margin: 50px auto;
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
-}
-
-h2 {
-    margin-bottom: 20px;
-    color: #333;
+.form-group {
+    margin-bottom: 15px;
 }
 
 label {
-    font-weight: bold;
+    display: block;
     margin-bottom: 5px;
-    text-align: left;
+    font-weight: bold;
 }
 
-input {
+select, input {
+    width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color1);
     border-radius: 5px;
-    font-size: 16px;
+    font-weight: bold;
+    color: var(--color1);
+
+    
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+    color: var(--color1);
+    
+}
+
+.radio-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 button {
-    padding: 10px;
-    background-color: #007BFF;
+    background-color: var(--color1);
     color: white;
     border: none;
+    padding: 12px 20px;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-p {
-    margin-top: 10px;
-}
-
-a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Estilos da Página Home */
-header {
-    background-color: #007BFF;
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-header h1 {
-    margin: 0;
-}
-
-nav a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-section {
-    padding: 20px;
-    text-align: center;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
     width: 100%;
+    font-size: 16px;
+    transition: background 0.3s;
+
+    &:hover{
+        background-color: #05112cc9;
+        box-shadow: var(--shadow);
+    }
 }
+
+
+
+#resultado {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--color3);
+    box-shadow: var(--shadow);
+    color:var(--color1);
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    display: none;
+}
+
+.preco {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color1)
+}
+

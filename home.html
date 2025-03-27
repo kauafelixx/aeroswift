@@ -1,28 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - AeroSwift</title>
-    <link rel="stylesheet" href="style/home.css">
+    <title>AeroSwift - Compre sua Passagem</title>
+<link rel="stylesheet" href="style/home.css">
 </head>
 <body>
-    <header>
-        <h1>Bem-vindo à AeroSwift</h1>
-        <nav>
-            <a href="#voos">Voos</a>
-            <a href="#perfil">Perfil</a>
-            <a href="#sair">Sair</a>
-        </nav>
-    </header>
+    <div class="container">
+     <h1>AeroSwift</h1>
+        <p>Compre sua passagem entre capitais brasileiras!</p>
 
-    <section id="voos">
-        <h2>Voos Disponíveis</h2>
-        <p>Confira os melhores voos com a AeroSwift.</p>
-    </section>
+        <div class="form-group">
+            <label for="origem">Origem:</label>
+            <select id="origem" required>
+                <option value="">Selecione uma cidade</option>
+            </select>
+        </div>
 
-    <footer>
-        <p>&copy; 2023 AeroSwift. Todos os direitos reservados.</p>
-    </footer>
+        <div class="form-group">
+            <label for="destino">Destino:</label>
+            <select id="destino" required>
+                <option value="">Selecione uma cidade</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Classe:</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="classe" value="economica" checked> Econômica
+                </label>
+                <label>
+                    <input type="radio" name="classe" value="executiva"> Executiva
+                </label>
+            </div>
+        </div>
+
+        <button id="calcular">Calcular Preço</button>
+
+        <div id="resultado">
+            <p>Preço estimado:</p>
+            <p class="preco" id="preco">R$ 0,00</p>
+            <button class="comprar">
+                Compre aqui
+            </button>
+        </div>
+    </div>
+
+<script src="scripts/home.js"></script>
 </body>
 </html>
