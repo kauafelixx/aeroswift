@@ -69,7 +69,17 @@ label {
     margin-bottom: 5px;
     font-weight: bold;
 }
+select{
+    outline: none;
 
+    transition: all .5s ease;
+
+    &:active, &:hover, &:focus{
+        box-shadow: 2px 2px 6px #6da7f2a9, inset 2px 2px 4px #4384d9af;
+      
+    }
+
+}
 select, input {
     width: 100%;
     padding: 10px;
