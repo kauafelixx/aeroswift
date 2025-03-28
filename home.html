@@ -7,9 +7,16 @@
 <link rel="stylesheet" href="style/home.css">
 </head>
 <body>
-    <div class="container">
-     <h1>AeroSwift</h1>
+    
+    <header>
+        <h1>AeroSwift</h1>
         <p>Compre sua passagem entre capitais brasileiras!</p>
+    </header>
+    <div id="alert-container">
+        <h4 id="alert" class="alert"></h4>
+       
+    </div>
+    <div class="container">
 
         <div class="form-group">
             <label for="origem">Origem:</label>
@@ -17,7 +24,7 @@
                 <option value="">Selecione uma cidade</option>
             </select>
         </div>
-
+        
         <div class="form-group">
             <label for="destino">Destino:</label>
             <select id="destino" required>
@@ -47,7 +54,7 @@
             </button>
         </div>
     </div>
-
-<script src="scripts/home.js"></script>
+    
+    <script src="scripts/home.js"></script>
 </body>
 </html>
