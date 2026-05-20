@@ -1,109 +1,149 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Holtwood One SC,Montserrat"
+    <meta
+      name="description"
+      content="AeroSwift, uma experiência web para simular passagens aéreas entre capitais brasileiras."
     />
-
-    <title>AeroSwift</title>
+    <title>AeroSwift | Voos entre capitais brasileiras</title>
+    <link rel="icon" href="images/logo-aeroswift.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header >
-      <img src="images/logo-aeroswift.png" alt="Logo" />
-      <ul>
-        <li><a href="#">Início</a></li>
-        <li><a href="#about">Sobre nós</a></li>
-        <li><a href="#contact">Contato</a></li>
-      </ul>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="AeroSwift - página inicial">
+        <img src="images/logo-aeroswift.png" alt="AeroSwift" />
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="#destinos">Destinos</a>
+        <a href="#experiencia">Experiência</a>
+        <a href="#depoimentos">Depoimentos</a>
+      </nav>
+      <a class="header-action" href="login.html">Entrar</a>
     </header>
-    <div class="slogan">
-      <div class="text-slogan">
-        <p>Conectando o Brasil, estado a estado.</p>
-      </div>
-    </div>
 
-    <section class="banner">
-      <div class="txt-end-btn">
-        <p id="typing-text" class="banner-text"></p>
-        <p>
-          <a href="login.html" class="cta-button">Comprar Passagem</a>
-        </p>
-      </div>
-    </section>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="eyebrow">Voos nacionais simplificados</p>
+          <h1 id="hero-title">AeroSwift conecta capitais brasileiras com agilidade.</h1>
+          <p class="hero-copy">
+            Simule sua passagem, compare classes e visualize uma experiência de compra
+            criada para ser clara, rápida e acessível.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="login.html">Comprar passagem</a>
+            <a class="button button-secondary" href="#destinos">Ver destinos</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="Resumo da operação AeroSwift">
+          <span>27 capitais</span>
+          <strong>Rotas sob demanda</strong>
+          <p>Preços estimados por distância, classe e rota selecionada.</p>
+        </div>
+      </section>
 
-    <section class="about" id="about">
-      
-      <div class="about-img"></div>
-      <div class="about-text">
-        <h2>Sobre nós</h2>
-        <p>
-          A AeroSwift é uma empresa de transporte aéreo que conecta os estados
-          brasileiros. Com uma frota de aeronaves modernas e seguras, a
-          AeroSwift oferece voos diários para os principais aeroportos do país.
-        </p>
-      </div>
-    </section>
+      <section class="section destinations" id="destinos" aria-labelledby="destinos-title">
+        <div class="section-heading">
+          <p class="eyebrow">Cobertura nacional</p>
+          <h2 id="destinos-title">Principais rotas em destaque</h2>
+          <p>
+            A malha cobre todas as capitais brasileiras, com foco em trajetos claros
+            para simulação e comparação de preços.
+          </p>
+        </div>
+        <div class="destination-grid">
+          <article>
+            <span>Sudeste - Nordeste</span>
+            <h3>São Paulo para Salvador</h3>
+            <p>Rota ideal para turismo, negócios e conexões regionais.</p>
+          </article>
+          <article>
+            <span>Centro-Oeste - Norte</span>
+            <h3>Brasília para Manaus</h3>
+            <p>Ligação estratégica entre polos administrativos e amazônicos.</p>
+          </article>
+          <article>
+            <span>Sul - Sudeste</span>
+            <h3>Porto Alegre para Rio de Janeiro</h3>
+            <p>Viagem direta com estimativa por distância e classe escolhida.</p>
+          </article>
+        </div>
+      </section>
 
-    <section class="testimonials">
-      <h2>O que nossos clientes dizem</h2>
-      <div class="testimonial">
-        <div class="person1"> <img src="images/person1.jpg" alt="João"></div>
-        <p>
-          <strong>João Silva</strong><br />
-          Minha experiência com a AeroSwift foi incrível! Desde o check-in online, que foi super fácil, até o desembarque, tudo foi perfeito. A equipe de bordo foi muito atenciosa, e a aeronave estava impecável. A decolagem e o pouso foram tão suaves que nem parecia que estávamos voando. Recomendo a AeroSwift para quem busca conforto e segurança em suas viagens. Com certeza vou voar com vocês novamente!
-
-      
+      <section class="section experience" id="experiencia" aria-labelledby="experiencia-title">
+        <div class="experience-image" role="img" aria-label="Avião AeroSwift em voo"></div>
+        <div class="experience-copy">
+          <p class="eyebrow">Experiência digital</p>
+          <h2 id="experiencia-title">Do cadastro ao preço final em poucos passos.</h2>
+          <p>
+            O protótipo usa autenticação simulada com armazenamento local, seleção de
+            capitais, cálculo por distância e resumo de compra para demonstrar uma
+            jornada completa de frontend.
+          </p>
+          <ul class="check-list">
+            <li>Login e cadastro funcionais para demonstração.</li>
+            <li>Validação de campos e mensagens de erro amigáveis.</li>
+            <li>Interface responsiva com estados de foco por teclado.</li>
           </ul>
-        </p>
-      </div>
-      <ul class="locate">
-        <li>Viagem: São Paulo (SP) para Salvador (BA).</li></ul>
-      <div class="testimonial">
-        <div class="person2"> <img src="images/person2.jpg" alt="Maria"></div>
-        <p>
-          <strong>Maria Oliveira</strong><br />
-          Nunca tinha viajado de avião antes, e a AeroSwift tornou minha primeira experiência inesquecível! A equipe foi muito prestativa desde o momento em que entrei no aeroporto. A aeronave era moderna e confortável, e o serviço de bordo foi impecável. Adorei a atenção aos detalhes, como os cobertores e travesseiros oferecidos. Agora, sempre que preciso viajar, escolho a AeroSwift. Obrigada por tornarem minha viagem tão especial!
+        </div>
+      </section>
 
-         
-          </ul>
-        </p>
+      <section class="section testimonials" id="depoimentos" aria-labelledby="depoimentos-title">
+        <div class="section-heading">
+          <p class="eyebrow">Clientes</p>
+          <h2 id="depoimentos-title">Viagens com conforto e previsibilidade</h2>
+        </div>
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <img src="images/person1.jpg" alt="Retrato de João Silva" />
+            <div>
+              <p>
+                "Check-in simples, preço transparente e uma experiência muito tranquila
+                do início ao fim."
+              </p>
+              <strong>João Silva</strong>
+              <span>São Paulo para Salvador</span>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <img src="images/person2.jpg" alt="Retrato de Maria Oliveira" />
+            <div>
+              <p>
+                "A simulação deixou tudo claro antes da compra. Foi fácil escolher a
+                classe e entender o valor."
+              </p>
+              <strong>Maria Oliveira</strong>
+              <span>Rio de Janeiro para Fortaleza</span>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>AeroSwift</strong>
+        <p>Protótipo de companhia aérea criado para portfólio frontend.</p>
       </div>
-      <ul class="locate">
-        <li>Viagem: Rio de Janeiro (RJ) para Fortaleza (CE).</li>
+      <address>
+        Av. das Nuvens, 1234, São Paulo, SP<br />
+        contato@aeroswift.com
+      </address>
+      <ul class="social-links" aria-label="Redes sociais">
+        <li><a href="#" aria-label="Facebook"><img src="images/facebook.png" alt="" /></a></li>
+        <li><a href="#" aria-label="Instagram"><img src="images/instagram.png" alt="" /></a></li>
+        <li><a href="#" aria-label="LinkedIn"><img src="images/linkedin.png" alt="" /></a></li>
+        <li><a href="#" aria-label="Twitter"><img src="images/twitter.png" alt="" /></a></li>
       </ul>
-    </section>
-
-    <footer>
-      <ul class="contact" id="contact">
-        <p>Informações de Contato:</p>
-        <li>Endereço: Av. das Nuvens, 1234, São Paulo, SP.</li>
-        <li>Telefone: +55 11 1234-5678.</li>
-        <li>Email: info@aeroswift.com.</li>
-      </ul>
-      <ul>
-      <p>Links Úteis:</p>
-      <li><a href="#">Política de Privacidade.</a></li>
-      <li><a href="#">Termos de Serviço.</a></li>
-
-    </ul>
-    <p>© 2021 AeroSwift. Todos os direitos reservados.</p>
-
-    <ul class="social">
- 
-      <li><a href="#"><img src="images/facebook.png" alt="facebook"></a></li>
-      <li><a href="#"><img src="images/instagram.png" alt="instagram"></a>
-        
-      </li>
-      <li><a href="#"><img src="images/linkedin.png" alt="linkedin"></a></li>
-      <li><a href="#"><img src="images/twitter.png" alt="twitter"></a></li>
-          </ul>
-          <ul>
-  
     </footer>
-    <script src="scripts/animation.js"></script>
   </body>
 </html>

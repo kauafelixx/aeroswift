@@ -1,43 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - AeroSwift</title>
-    <link rel="stylesheet" href="style/login-register.css">
-</head>
-<body>
-    <div class="container">
-        <form id="registerForm" class="login-form"> 
-            
-            <h2>Cadastro</h2>
-            <input type="email" id="newEmail"  class="box" required placeholder="Email">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cadastro simulado da AeroSwift para demonstração do fluxo frontend." />
+    <title>AeroSwift | Cadastro</title>
+    <link rel="icon" href="images/logo-aeroswift.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/login-register.css" />
+  </head>
+  <body>
+    <main class="auth-shell">
+      <section class="auth-panel" aria-labelledby="register-title">
+        <a class="brand" href="index.html" aria-label="AeroSwift - página inicial">
+          <img src="images/logo-aeroswift.png" alt="AeroSwift" />
+        </a>
+        <p class="eyebrow">Novo cliente</p>
+        <h1 id="register-title">Crie sua conta AeroSwift.</h1>
+        <p class="auth-copy">
+          O cadastro fica salvo somente neste navegador e serve para demonstrar
+          validação e persistência local.
+        </p>
 
-           
-            <input type="password" id="newPassword"  class="box" required placeholder="Senha" minlength="8">
-
-            <button type="submit"  class="box">Cadastrar</button>
-            <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+        <form id="register-form" class="auth-form" novalidate>
+          <label for="email">
+            Email
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </label>
+          <label for="password">
+            Senha
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <label for="confirm-password">
+            Confirmar senha
+            <input
+              id="confirm-password"
+              name="confirm-password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            />
+          </label>
+          <p class="message" id="auth-message" role="status" aria-live="polite"></p>
+          <button type="submit">Cadastrar</button>
         </form>
-    </div>
 
-    <script>
-        // Simulação de cadastro
-        document.getElementById('registerForm').addEventListener('submit', function (e) {
-            e.preventDefault(); // Evita o envio do formulário
+        <p class="auth-link">Já tem conta? <a href="login.html">Entrar</a></p>
+      </section>
+    </main>
 
-            const email = document.getElementById('newEmail').value;
-            const password = document.getElementById('newPassword').value;
-
-            // Verifica se os campos estão preenchidos
-            if (email && password) {
-                alert('Cadastro realizado com sucesso!');
-                // Redireciona para a página de login
-                window.location.href = 'login.html';
-            } else {
-                alert('Por favor, preencha todos os campos.');
-            }
-        });
-    </script>
-</body>
+    <script src="scripts/script.js"></script>
+  </body>
 </html>

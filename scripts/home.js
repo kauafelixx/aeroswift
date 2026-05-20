@@ -1,825 +1,154 @@
-let alert = document.getElementById("alert-container")
+const SESSION_KEY = "aeroswift_session";
+const PRICE_PER_KM = 0.52;
+const BUSINESS_MULTIPLIER = 1.8;
 
-// Lista de capitais brasileiras
- const cidades = [
-    "Rio Branco", "Maceió", "Macapá", "Manaus", "Salvador",
-    "Fortaleza", "Brasília", "Vitória", "Goiânia", "São Luís",
-    "Cuiabá", "Campo Grande", "Belo Horizonte", "Belém", "João Pessoa",
-    "Curitiba", "Recife", "Teresina", "Rio de Janeiro", "Natal",
-    "Porto Alegre", "Porto Velho", "Boa Vista", "Florianópolis",
-    "São Paulo", "Aracaju", "Palmas"
+const capitals = [
+  { name: "Aracaju", state: "SE", lat: -10.9472, lon: -37.0731 },
+  { name: "Belém", state: "PA", lat: -1.4558, lon: -48.5039 },
+  { name: "Belo Horizonte", state: "MG", lat: -19.9167, lon: -43.9345 },
+  { name: "Boa Vista", state: "RR", lat: 2.8235, lon: -60.6758 },
+  { name: "Brasília", state: "DF", lat: -15.7939, lon: -47.8828 },
+  { name: "Campo Grande", state: "MS", lat: -20.4697, lon: -54.6201 },
+  { name: "Cuiabá", state: "MT", lat: -15.6014, lon: -56.0979 },
+  { name: "Curitiba", state: "PR", lat: -25.4284, lon: -49.2733 },
+  { name: "Florianópolis", state: "SC", lat: -27.5949, lon: -48.5482 },
+  { name: "Fortaleza", state: "CE", lat: -3.7319, lon: -38.5267 },
+  { name: "Goiânia", state: "GO", lat: -16.6869, lon: -49.2648 },
+  { name: "João Pessoa", state: "PB", lat: -7.1195, lon: -34.845 },
+  { name: "Macapá", state: "AP", lat: 0.0349, lon: -51.0694 },
+  { name: "Maceió", state: "AL", lat: -9.6498, lon: -35.7089 },
+  { name: "Manaus", state: "AM", lat: -3.119, lon: -60.0217 },
+  { name: "Natal", state: "RN", lat: -5.7793, lon: -35.2009 },
+  { name: "Palmas", state: "TO", lat: -10.1844, lon: -48.3336 },
+  { name: "Porto Alegre", state: "RS", lat: -30.0346, lon: -51.2177 },
+  { name: "Porto Velho", state: "RO", lat: -8.7608, lon: -63.8999 },
+  { name: "Recife", state: "PE", lat: -8.0476, lon: -34.877 },
+  { name: "Rio Branco", state: "AC", lat: -9.97499, lon: -67.8243 },
+  { name: "Rio de Janeiro", state: "RJ", lat: -22.9068, lon: -43.1729 },
+  { name: "Salvador", state: "BA", lat: -12.9777, lon: -38.5016 },
+  { name: "São Luís", state: "MA", lat: -2.5307, lon: -44.3068 },
+  { name: "São Paulo", state: "SP", lat: -23.5505, lon: -46.6333 },
+  { name: "Teresina", state: "PI", lat: -5.0892, lon: -42.8019 },
+  { name: "Vitória", state: "ES", lat: -20.3155, lon: -40.3128 },
 ];
 
-// Preenche os selects de origem e destino
-const selectOrigem = document.getElementById("origem");
-const selectDestino = document.getElementById("destino");
+const sessionEmail = localStorage.getItem(SESSION_KEY);
+const sessionEmailElement = document.getElementById("session-email");
+const logoutButton = document.getElementById("logout-button");
+const form = document.getElementById("booking-form");
+const originSelect = document.getElementById("origem");
+const destinationSelect = document.getElementById("destino");
+const formMessage = document.getElementById("form-message");
+const summaryRoute = document.getElementById("summary-route");
+const summaryDistance = document.getElementById("summary-distance");
+const summaryClass = document.getElementById("summary-class");
+const summaryPrice = document.getElementById("summary-price");
+const confirmButton = document.getElementById("confirm-button");
 
-cidades.forEach(cidade => {
-    const optionOrigem = document.createElement("option");
-    optionOrigem.value = cidade;
-    optionOrigem.textContent = cidade;
-    selectOrigem.appendChild(optionOrigem.cloneNode(true));
-
-    const optionDestino = optionOrigem.cloneNode(true);
-    selectDestino.appendChild(optionDestino);
-});
-
-
-const distancias = {
-    "São Paulo": {
-        "Aracaju": 1700,
-        "Belém": 2400,
-        "Belo Horizonte": 586,
-        "Boa Vista": 3300,  
-        "Brasília": 870,
-        "Campo Grande": 1014,
-        "Cuiabá": 1450,
-        "Curitiba": 408,
-        "Florianópolis": 705,
-        "Fortaleza": 2400,
-        "Goiânia": 926,
-        "João Pessoa": 2180,
-        "Macapá": 2600,  
-        "Maceió": 1950,
-        "Manaus": 2670,  
-        "Natal": 2250,
-        "Palmas": 1200,
-        "Porto Alegre": 850,
-        "Porto Velho": 2200,
-        "Recife": 2100,
-        "Rio Branco": 2900,
-        "Rio de Janeiro": 430,
-        "Salvador": 1430,
-        "São Luís": 2000,
-        "Teresina": 1850,
-        "Vitória": 882
-    },
-    "Rio de Janeiro": {
-        "Aracaju": 1400,
-        "Belém": 2500,
-        "Belo Horizonte": 440,
-        "Boa Vista": 3400,
-        "Brasília": 1200,
-        "Campo Grande": 1450,
-        "Cuiabá": 1700,
-        "Curitiba": 850,
-        "Florianópolis": 1150,
-        "Fortaleza": 2200,
-        "Goiânia": 1300,
-        "João Pessoa": 2000,
-        "Macapá": 2700,
-        "Maceió": 1700,
-        "Manaus": 2800,
-        "Natal": 2150,
-        "Palmas": 1600,
-        "Porto Alegre": 1550,
-        "Porto Velho": 2300,
-        "Recife": 1900,
-        "Rio Branco": 3000,
-        "São Paulo": 430,
-        "Salvador": 1250,
-        "São Luís": 2100,
-        "Teresina": 1950,
-        "Vitória": 520
-    },
-    "Brasília": {
-        "Aracaju": 1400,
-        "Belém": 1600,
-        "Belo Horizonte": 740,
-        "Boa Vista": 3500,
-        "Campo Grande": 1134,
-        "Cuiabá": 1130,
-        "Curitiba": 1360,
-        "Florianópolis": 1700,
-        "Fortaleza": 1600,
-        "Goiânia": 209,
-        "João Pessoa": 1800,
-        "Macapá": 1800,
-        "Maceió": 1500,
-        "Manaus": 1950,
-        "Natal": 1750,
-        "Palmas": 850,
-        "Porto Alegre": 2020,
-        "Porto Velho": 1900,
-        "Recife": 1650,
-        "Rio Branco": 2200,
-        "Rio de Janeiro": 1200,
-        "Salvador": 1100,
-        "São Luís": 1200,
-        "São Paulo": 870,
-        "Teresina": 1100,
-        "Vitória": 1270
-    },
-    "Fortaleza": {
-        "Aracaju": 1129,
-        "Belém": 1496,
-        "Belo Horizonte": 2326,
-        "Boa Vista": 6548,
-        "Brasília": 2137,
-        "Campo Grande": 3161,
-        "Cuiabá": 3196,
-        "Curitiba": 3322,
-        "Florianópolis": 3627,
-        "Goiânia": 2340,
-        "João Pessoa": 674,
-        "Macapá": 2600,
-        "Maceió": 950,
-        "Manaus": 4893,
-        "Natal": 527,
-        "Palmas": 1792,
-        "Porto Alegre": 4052,
-        "Porto Velho": 4656,
-        "Recife": 780,
-        "Rio Branco": 5162,
-        "Rio de Janeiro": 2605,
-        "Salvador": 1200,
-        "São Luís": 889,
-        "São Paulo": 2928,
-        "Teresina": 595,
-        "Vitória": 2165
-    },
-    "Salvador": {
-        "Aracaju": 356,
-        "Belém": 2090,
-        "Belo Horizonte": 1372,
-        "Boa Vista": 5450,
-        "Brasília": 1456,
-        "Campo Grande": 2340,
-        "Cuiabá": 2375,
-        "Curitiba": 2501,
-        "Florianópolis": 2806,
-        "Fortaleza": 1200,
-        "Goiânia": 1655,
-        "João Pessoa": 840,
-        "Macapá": 3000,
-        "Maceió": 632,
-        "Manaus": 4070,
-        "Natal": 930,
-        "Palmas": 1300,
-        "Porto Alegre": 3230,
-        "Porto Velho": 3835,
-        "Recife": 839,
-        "Rio Branco": 4340,
-        "Rio de Janeiro": 1643,
-        "São Luís": 1420,
-        "São Paulo": 1962,
-        "Teresina": 1140,
-        "Vitória": 1345
-    },
-    "Aracaju": {
-        "Belém": 1800,
-        "Belo Horizonte": 1400,
-        "Boa Vista": 5200,
-        "Brasília": 1500,
-        "Campo Grande": 2200,
-        "Cuiabá": 2300,
-        "Curitiba": 2400,
-        "Florianópolis": 2700,
-        "Fortaleza": 1129,
-        "Goiânia": 1600,
-        "João Pessoa": 550,
-        "Macapá": 2700,
-        "Maceió": 300,
-        "Manaus": 3900,
-        "Natal": 600,
-        "Palmas": 1400,
-        "Porto Alegre": 3100,
-        "Porto Velho": 3700,
-        "Recife": 480,
-        "Rio Branco": 4200,
-        "Rio de Janeiro": 1600,
-        "Salvador": 356,
-        "São Luís": 1200,
-        "São Paulo": 1900,
-        "Teresina": 900,
-        "Vitória": 1300
-    },
-    "Recife": {
-        "Aracaju": 480,
-        "Belém": 1900,
-        "Belo Horizonte": 1950,
-        "Boa Vista": 5700,
-        "Brasília": 2000,
-        "Campo Grande": 2900,
-        "Cuiabá": 3000,
-        "Curitiba": 3100,
-        "Florianópolis": 3400,
-        "Fortaleza": 780,
-        "Goiânia": 2100,
-        "João Pessoa": 120,
-        "Macapá": 2800,
-        "Maceió": 260,
-        "Manaus": 4400,
-        "Natal": 300,
-        "Palmas": 1800,
-        "Porto Alegre": 3800,
-        "Porto Velho": 4400,
-        "Rio Branco": 4900,
-        "Rio de Janeiro": 2250,
-        "Salvador": 839,
-        "São Luís": 1500,
-        "São Paulo": 2600,
-        "Teresina": 1100,
-        "Vitória": 1800
-    },
-    "Maceió": {
-        "Aracaju": 300,
-        "Belém": 1850,
-        "Belo Horizonte": 1700,
-        "Boa Vista": 5500,
-        "Brasília": 1750,
-        "Campo Grande": 2500,
-        "Cuiabá": 2600,
-        "Curitiba": 2700,
-        "Florianópolis": 3000,
-        "Fortaleza": 950,
-        "Goiânia": 1850,
-        "João Pessoa": 380,
-        "Macapá": 2750,
-        "Manaus": 4200,
-        "Natal": 550,
-        "Palmas": 1650,
-        "Porto Alegre": 3400,
-        "Porto Velho": 4000,
-        "Recife": 260,
-        "Rio Branco": 4500,
-        "Rio de Janeiro": 1900,
-        "Salvador": 632,
-        "São Luís": 1350,
-        "São Paulo": 2200,
-        "Teresina": 1050,
-        "Vitória": 1500
-    },
-    "Natal": {
-        "Aracaju": 600,
-        "Belém": 2000,
-        "Belo Horizonte": 2300,
-        "Boa Vista": 6000,
-        "Brasília": 2350,
-        "Campo Grande": 3250,
-        "Cuiabá": 3350,
-        "Curitiba": 3450,
-        "Florianópolis": 3750,
-        "Fortaleza": 527,
-        "Goiânia": 2450,
-        "João Pessoa": 180,
-        "Macapá": 2900,
-        "Maceió": 550,
-        "Manaus": 4800,
-        "Palmas": 2150,
-        "Porto Alegre": 4150,
-        "Porto Velho": 4750,
-        "Recife": 300,
-        "Rio Branco": 5250,
-        "Rio de Janeiro": 2600,
-        "Salvador": 930,
-        "São Luís": 1600,
-        "São Paulo": 2950,
-        "Teresina": 1200,
-        "Vitória": 2150
-    },
-    "João Pessoa": {
-        "Aracaju": 550,
-        "Belém": 1950,
-        "Belo Horizonte": 2200,
-        "Boa Vista": 5900,
-        "Brasília": 2250,
-        "Campo Grande": 3150,
-        "Cuiabá": 3250,
-        "Curitiba": 3350,
-        "Florianópolis": 3650,
-        "Fortaleza": 674,
-        "Goiânia": 2350,
-        "Macapá": 2850,
-        "Maceió": 380,
-        "Manaus": 4700,
-        "Natal": 180,
-        "Palmas": 2050,
-        "Porto Alegre": 4050,
-        "Porto Velho": 4650,
-        "Recife": 120,
-        "Rio Branco": 5150,
-        "Rio de Janeiro": 2500,
-        "Salvador": 840,
-        "São Luís": 1550,
-        "São Paulo": 2850,
-        "Teresina": 1150,
-        "Vitória": 2050
-    },
-    "Teresina": {
-        "Aracaju": 900,
-        "Belém": 800,
-        "Belo Horizonte": 1800,
-        "Boa Vista": 4500,
-        "Brasília": 1100,
-        "Campo Grande": 2000,
-        "Cuiabá": 2100,
-        "Curitiba": 2200,
-        "Florianópolis": 2500,
-        "Fortaleza": 595,
-        "Goiânia": 1300,
-        "João Pessoa": 1150,
-        "Macapá": 1200,
-        "Maceió": 1050,
-        "Manaus": 2800,
-        "Natal": 1200,
-        "Palmas": 700,
-        "Porto Alegre": 2900,
-        "Porto Velho": 3500,
-        "Recife": 1100,
-        "Rio Branco": 4000,
-        "Rio de Janeiro": 1950,
-        "Salvador": 1140,
-        "São Luís": 400,
-        "São Paulo": 1850,
-        "Vitória": 1700
-    },
-    "Manaus": {
-        "Aracaju": 3900,
-        "Belém": 1300,
-        "Belo Horizonte": 3500,
-        "Boa Vista": 785,
-        "Brasília": 1950,
-        "Campo Grande": 2400,
-        "Cuiabá": 2300,
-        "Curitiba": 3400,
-        "Florianópolis": 3700,
-        "Fortaleza": 4893,
-        "Goiânia": 2100,
-        "João Pessoa": 4700,
-        "Macapá": 1500,
-        "Maceió": 4200,
-        "Natal": 4800,
-        "Palmas": 2200,
-        "Porto Alegre": 4000,
-        "Porto Velho": 900,
-        "Recife": 4400,
-        "Rio Branco": 1450,
-        "Rio de Janeiro": 2800,
-        "Salvador": 4070,
-        "São Luís": 1600,
-        "São Paulo": 2670,
-        "Teresina": 2800,
-        "Vitória": 3600
-    },
-    "Belém": {
-        "Aracaju": 1800,
-        "Belo Horizonte": 2500,
-        "Boa Vista": 1700,
-        "Brasília": 1600,
-        "Campo Grande": 2300,
-        "Cuiabá": 2200,
-        "Curitiba": 2900,
-        "Florianópolis": 3200,
-        "Fortaleza": 1496,
-        "Goiânia": 1900,
-        "João Pessoa": 1950,
-        "Macapá": 300,
-        "Maceió": 1850,
-        "Manaus": 1300,
-        "Natal": 2000,
-        "Palmas": 1200,
-        "Porto Alegre": 3500,
-        "Porto Velho": 1900,
-        "Recife": 1900,
-        "Rio Branco": 2400,
-        "Rio de Janeiro": 2500,
-        "Salvador": 2090,
-        "São Luís": 500,
-        "São Paulo": 2400,
-        "Teresina": 800,
-        "Vitória": 2400
-    },
-    "Porto Velho": {
-        "Aracaju": 3700,
-        "Belém": 1900,
-        "Belo Horizonte": 2700,
-        "Boa Vista": 1700,
-        "Brasília": 1900,
-        "Campo Grande": 1500,
-        "Cuiabá": 1400,
-        "Curitiba": 2500,
-        "Florianópolis": 2800,
-        "Fortaleza": 4656,
-        "Goiânia": 1800,
-        "João Pessoa": 4650,
-        "Macapá": 2200,
-        "Maceió": 4000,
-        "Manaus": 900,
-        "Natal": 4750,
-        "Palmas": 1800,
-        "Porto Alegre": 3100,
-        "Recife": 4400,
-        "Rio Branco": 550,
-        "Rio de Janeiro": 3000,
-        "Salvador": 3835,
-        "São Luís": 2400,
-        "São Paulo": 2900,
-        "Teresina": 3500,
-        "Vitória": 3200
-    },
-    "Rio Branco": {
-        "Campo Grande": 2671, 
-        "Aracaju": 4200,
-        "Belém": 2400,
-        "Belo Horizonte": 3200,
-        "Boa Vista": 2250,
-        "Brasília": 2200,
-        "Cuiabá": 1950,
-        "Curitiba": 3000,
-        "Florianópolis": 3300,
-        "Fortaleza": 5162,
-        "Goiânia": 2100,
-        "João Pessoa": 5150,
-        "Macapá": 2600,
-        "Maceió": 4500,
-        "Manaus": 1450,
-        "Natal": 5250,
-        "Palmas": 2300,
-        "Porto Alegre": 3600,
-        "Porto Velho": 550,
-        "Recife": 4900,
-        "Rio de Janeiro": 3000,
-        "Salvador": 4340,
-        "São Luís": 2900,
-        "São Paulo": 2900,
-        "Teresina": 4000,
-        "Vitória": 3500
-    },
-    "Campo Grande": {
-        "Rio Branco": 2671,
-        "Aracaju": 2200,
-        "Belém": 2300,
-        "Belo Horizonte": 1450,
-        "Boa Vista": 3200,
-        "Brasília": 1134,
-        "Cuiabá": 700,
-        "Curitiba": 1000,
-        "Florianópolis": 1300,
-        "Fortaleza": 3161,
-        "Goiânia": 900,
-        "João Pessoa": 3150,
-        "Macapá": 2700,
-        "Maceió": 2500,
-        "Manaus": 2400,
-        "Natal": 3250,
-        "Palmas": 1400,
-        "Porto Alegre": 1600,
-        "Porto Velho": 1500,
-        "Recife": 2900,
-        "Rio de Janeiro": 1450,
-        "Salvador": 2340,
-        "São Luís": 2000,
-        "São Paulo": 1014,
-        "Teresina": 2000,
-        "Vitória": 1800
-    },
-    "Belo Horizonte": {
-        "Curitiba": 1000,  
-        "Aracaju": 1400,
-        "Belém": 2500,
-        "Boa Vista": 4000,
-        "Brasília": 740,
-        "Campo Grande": 1450,
-        "Cuiabá": 1700,
-        "Florianópolis": 1200,
-        "Fortaleza": 2326,
-        "Goiânia": 900,
-        "João Pessoa": 2200,
-        "Macapá": 2800,
-        "Maceió": 1700,
-        "Manaus": 3500,
-        "Natal": 2300,
-        "Palmas": 1600,
-        "Porto Alegre": 1700,
-        "Porto Velho": 2700,
-        "Recife": 1950,
-        "Rio Branco": 3200,
-        "Rio de Janeiro": 440,
-        "Salvador": 1372,
-        "São Luís": 2100,
-        "São Paulo": 586,
-        "Teresina": 1800,
-        "Vitória": 520
-    },
-    "Curitiba": {
-        "Belo Horizonte": 1000,
-        "Aracaju": 2400,
-        "Belém": 2900,
-        "Boa Vista": 3800,
-        "Brasília": 1360,
-        "Campo Grande": 1000,
-        "Cuiabá": 1300,
-        "Florianópolis": 300,
-        "Fortaleza": 3322,
-        "Goiânia": 1100,
-        "João Pessoa": 3100,
-        "Macapá": 3000,
-        "Maceió": 2700,
-        "Manaus": 3400,
-        "Natal": 3200,
-        "Palmas": 2000,
-        "Porto Alegre": 400,
-        "Porto Velho": 2800,
-        "Recife": 2900,
-        "Rio Branco": 3000,
-        "Rio de Janeiro": 850,
-        "Salvador": 2501,
-        "São Luís": 2600,
-        "São Paulo": 408,
-        "Teresina": 2400,
-        "Vitória": 1200
-    },
-    "Cuiabá": {
-        "Porto Alegre": 2114,  
-        "Aracaju": 2600,
-        "Belém": 2200,
-        "Belo Horizonte": 1700,
-        "Boa Vista": 2800,
-        "Brasília": 1130,
-        "Campo Grande": 700,
-        "Curitiba": 1300,
-        "Florianópolis": 1600,
-        "Fortaleza": 3196,
-        "Goiânia": 900,
-        "João Pessoa": 3250,
-        "Macapá": 2700,
-        "Maceió": 2600,
-        "Manaus": 2300,
-        "Natal": 3350,
-        "Palmas": 1200,
-        "Porto Velho": 1400,
-        "Recife": 3000,
-        "Rio Branco": 1950,
-        "Rio de Janeiro": 1700,
-        "Salvador": 2375,
-        "São Luís": 2000,
-        "São Paulo": 1450,
-        "Teresina": 2100,
-        "Vitória": 1900
-    },
-    "Porto Alegre": {
-        "Cuiabá": 2114,
-        "Aracaju": 3100,
-        "Belém": 3500,
-        "Belo Horizonte": 1700,
-        "Boa Vista": 4000,
-        "Brasília": 2020,
-        "Campo Grande": 1600,
-        "Curitiba": 400,
-        "Florianópolis": 460,
-        "Fortaleza": 4052,
-        "Goiânia": 1600,
-        "João Pessoa": 3800,
-        "Macapá": 3600,
-        "Maceió": 3400,
-        "Manaus": 4000,
-        "Natal": 3900,
-        "Palmas": 2300,
-        "Porto Velho": 3100,
-        "Recife": 3600,
-        "Rio Branco": 3600,
-        "Rio de Janeiro": 1550,
-        "Salvador": 3230,
-        "São Luís": 3300,
-        "São Paulo": 850,
-        "Teresina": 2900,
-        "Vitória": 1900
-    },
-    "Florianópolis": {
-        "Vitória": 1564,  
-        "Aracaju": 2700,
-        "Belém": 3200,
-        "Belo Horizonte": 1200,
-        "Boa Vista": 3800,
-        "Brasília": 1700,
-        "Campo Grande": 1300,
-        "Cuiabá": 1600,
-        "Curitiba": 300,
-        "Fortaleza": 3627,
-        "Goiânia": 1500,
-        "João Pessoa": 3400,
-        "Macapá": 3300,
-        "Maceió": 3000,
-        "Manaus": 3700,
-        "Natal": 3500,
-        "Palmas": 2000,
-        "Porto Alegre": 460,
-        "Porto Velho": 2800,
-        "Recife": 3200,
-        "Rio Branco": 3000,
-        "Rio de Janeiro": 850,
-        "Salvador": 2806,
-        "São Luís": 2900,
-        "São Paulo": 705,
-        "Teresina": 2700
-    },
-    "Vitória": {
-        "Florianópolis": 1564,
-        "Aracaju": 1300,
-        "Belém": 2400,
-        "Belo Horizonte": 520,
-        "Boa Vista": 3500,
-        "Brasília": 1270,
-        "Campo Grande": 1800,
-        "Cuiabá": 1900,
-        "Curitiba": 1200,
-        "Fortaleza": 2165,
-        "Goiânia": 1400,
-        "João Pessoa": 2050,
-        "Macapá": 2600,
-        "Maceió": 1500,
-        "Manaus": 3600,
-        "Natal": 2150,
-        "Palmas": 1700,
-        "Porto Alegre": 1900,
-        "Porto Velho": 3200,
-        "Recife": 1800,
-        "Rio Branco": 3500,
-        "Rio de Janeiro": 520,
-        "Salvador": 1345,
-        "São Luís": 2000,
-        "São Paulo": 882,
-        "Teresina": 1700
-    },
-    "Goiânia": {
-        "São Luís": 1600, 
-        "Aracaju": 1600,
-        "Belém": 1900,
-        "Belo Horizonte": 900,
-        "Boa Vista": 3500,
-        "Brasília": 209,
-        "Campo Grande": 900,
-        "Cuiabá": 900,
-        "Curitiba": 1100,
-        "Florianópolis": 1500,
-        "Fortaleza": 2340,
-        "João Pessoa": 2350,
-        "Macapá": 2200,
-        "Maceió": 1850,
-        "Manaus": 2100,
-        "Natal": 2450,
-        "Palmas": 850,
-        "Porto Alegre": 1600,
-        "Porto Velho": 1800,
-        "Recife": 2100,
-        "Rio Branco": 2100,
-        "Rio de Janeiro": 1300,
-        "Salvador": 1655,
-        "Teresina": 1300,
-        "Vitória": 1400
-    },
-    "São Luís": {
-        "Goiânia": 1600,
-        "Aracaju": 1200,
-        "Belém": 500,
-        "Belo Horizonte": 2100,
-        "Boa Vista": 2400,
-        "Brasília": 1200,
-        "Campo Grande": 2000,
-        "Cuiabá": 2000,
-        "Curitiba": 2600,
-        "Florianópolis": 2900,
-        "Fortaleza": 889,
-        "João Pessoa": 1550,
-        "Macapá": 300,
-        "Maceió": 1350,
-        "Manaus": 1600,
-        "Natal": 1600,
-        "Palmas": 1200,
-        "Porto Alegre": 3300,
-        "Porto Velho": 2400,
-        "Recife": 1500,
-        "Rio Branco": 2900,
-        "Rio de Janeiro": 2500,
-        "Salvador": 1420,
-        "Teresina": 400,
-        "Vitória": 2000
-    },
-    "Boa Vista": {
-        "Palmas": 2400,  
-        "Aracaju": 5200,
-        "Belém": 1700,
-        "Belo Horizonte": 4000,
-        "Brasília": 3500,
-        "Campo Grande": 3200,
-        "Cuiabá": 2800,
-        "Curitiba": 3800,
-        "Florianópolis": 4100,
-        "Fortaleza": 6548,
-        "Goiânia": 3500,
-        "João Pessoa": 5900,
-        "Macapá": 1400,
-        "Maceió": 5500,
-        "Manaus": 785,
-        "Natal": 6000,
-        "Porto Alegre": 4300,
-        "Porto Velho": 1700,
-        "Recife": 5700,
-        "Rio Branco": 2250,
-        "Rio de Janeiro": 4000,
-        "Salvador": 5450,
-        "São Luís": 2400,
-        "São Paulo": 3800,
-        "Teresina": 4500,
-        "Vitória": 4300
-    },
-    "Palmas": {
-        "Boa Vista": 2400,
-        "Aracaju": 1400,
-        "Belém": 1200,
-        "Belo Horizonte": 1600,
-        "Brasília": 850,
-        "Campo Grande": 1400,
-        "Cuiabá": 1200,
-        "Curitiba": 2000,
-        "Florianópolis": 2300,
-        "Fortaleza": 1792,
-        "Goiânia": 850,
-        "João Pessoa": 2050,
-        "Macapá": 2200,
-        "Maceió": 1650,
-        "Manaus": 2200,
-        "Natal": 2150,
-        "Porto Alegre": 2300,
-        "Porto Velho": 1800,
-        "Recife": 1800,
-        "Rio Branco": 2300,
-        "Rio de Janeiro": 1900,
-        "Salvador": 1300,
-        "São Luís": 1200,
-        "São Paulo": 1200,
-        "Teresina": 700,
-        "Vitória": 1700
-    },
-    "Macapá": {
-        "Aracaju": 2700,
-        "Belém": 300,
-        "Belo Horizonte": 2800,
-        "Boa Vista": 1400,
-        "Brasília": 1800,
-        "Campo Grande": 2700,
-        "Cuiabá": 2700,
-        "Curitiba": 3000,
-        "Florianópolis": 3300,
-        "Fortaleza": 2600,
-        "Goiânia": 2200,
-        "João Pessoa": 2850,
-        "Maceió": 2750,
-        "Manaus": 1500,
-        "Natal": 2900,
-        "Palmas": 2200,
-        "Porto Alegre": 3600,
-        "Porto Velho": 2200,
-        "Recife": 2800,
-        "Rio Branco": 2600,
-        "Rio de Janeiro": 3000,
-        "Salvador": 3000,
-        "São Luís": 500,
-        "São Paulo": 2600,
-        "Teresina": 1200,
-        "Vitória": 2800
-    }
-};
-
-
-function calcularPreco(origem, destino, classe) {
-
-    if (origem === destino) {
-      alert.textContent = "Coloque cidades diferentes"
-      alert.style.display='block';
-        return 0;
-    }
-
-    
-    let distancia = distancias[origem]?.[destino] || 500; // 
-
-
-    let preco = distancia * 0.5;
-
-
-    if (classe === "executiva") {
-        preco *= 1.8; // +80%
-    }
-
-    return preco.toFixed(2);
+if (!sessionEmail) {
+  window.location.href = "login.html";
 }
 
-// Evento de clique no botão
-document.getElementById("calcular").addEventListener("click", () => {
-    const origem = selectOrigem.value;
-    const destino = selectDestino.value;
-    const classe = document.querySelector('input[name="classe"]:checked').value;
+function formatCurrency(value) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
 
-    if (!origem || !destino) {
-     alert.textContent="Selecione uma origem ou destino!"
-     alert.style.display='block';
-        return;
-    }
+function formatCity(city) {
+  return `${city.name} (${city.state})`;
+}
 
-  
+function toRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
 
-    const preco = calcularPreco(origem, destino, classe);
-    document.getElementById("preco").textContent = `R$ ${preco}`;
-    document.getElementById("resultado").style.display = "block";
-});
+function calculateDistance(origin, destination) {
+  const earthRadiusKm = 6371;
+  const latDistance = toRadians(destination.lat - origin.lat);
+  const lonDistance = toRadians(destination.lon - origin.lon);
+  const originLat = toRadians(origin.lat);
+  const destinationLat = toRadians(destination.lat);
+
+  const haversine =
+    Math.sin(latDistance / 2) ** 2 +
+    Math.cos(originLat) * Math.cos(destinationLat) * Math.sin(lonDistance / 2) ** 2;
+
+  return Math.round(earthRadiusKm * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine)));
+}
+
+function findCapital(name) {
+  return capitals.find((capital) => capital.name === name);
+}
+
+function setMessage(text, type = "error") {
+  formMessage.textContent = text;
+  formMessage.classList.toggle("success", type === "success");
+}
+
+function populateSelects() {
+  const options = capitals
+    .map((city) => `<option value="${city.name}">${formatCity(city)}</option>`)
+    .join("");
+
+  originSelect.insertAdjacentHTML("beforeend", options);
+  destinationSelect.insertAdjacentHTML("beforeend", options);
+}
+
+function resetSummary() {
+  summaryRoute.textContent = "Selecione origem e destino";
+  summaryDistance.textContent = "--";
+  summaryClass.textContent = "Econômica";
+  summaryPrice.textContent = formatCurrency(0);
+  confirmButton.disabled = true;
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+
+  const origin = findCapital(originSelect.value);
+  const destination = findCapital(destinationSelect.value);
+  const selectedClass = form.elements.classe.value;
+
+  if (!origin || !destination) {
+    setMessage("Selecione origem e destino para calcular a passagem.");
+    resetSummary();
+    return;
+  }
+
+  if (origin.name === destination.name) {
+    setMessage("Origem e destino precisam ser capitais diferentes.");
+    resetSummary();
+    return;
+  }
+
+  const distance = calculateDistance(origin, destination);
+  const multiplier = selectedClass === "executiva" ? BUSINESS_MULTIPLIER : 1;
+  const price = distance * PRICE_PER_KM * multiplier;
+  const classLabel = selectedClass === "executiva" ? "Executiva" : "Econômica";
+
+  summaryRoute.textContent = `${formatCity(origin)} -> ${formatCity(destination)}`;
+  summaryDistance.textContent = `${distance.toLocaleString("pt-BR")} km`;
+  summaryClass.textContent = classLabel;
+  summaryPrice.textContent = formatCurrency(price);
+  confirmButton.disabled = false;
+  setMessage("Preço calculado com sucesso.", "success");
+}
+
+function handleConfirm() {
+  setMessage("Simulação finalizada. Nenhum pagamento real foi processado.", "success");
+}
+
+function handleLogout() {
+  localStorage.removeItem(SESSION_KEY);
+  window.location.href = "login.html";
+}
+
+sessionEmailElement.textContent = sessionEmail;
+populateSelects();
+resetSummary();
+
+form.addEventListener("submit", handleSubmit);
+confirmButton.addEventListener("click", handleConfirm);
+logoutButton.addEventListener("click", handleLogout);

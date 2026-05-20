@@ -1,43 +1,104 @@
-// Alternar entre Login e Cadastro
-document.getElementById('showRegister').addEventListener('click', function (e) {
-    e.preventDefault();
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-});
+const USERS_KEY = "aeroswift_users";
+const SESSION_KEY = "aeroswift_session";
 
-document.getElementById('showLogin').addEventListener('click', function (e) {
-    e.preventDefault();
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginForm').style.display = 'block';
-});
+const form = document.querySelector("form");
+const message = document.getElementById("auth-message");
+const isRegisterPage = Boolean(document.getElementById("register-form"));
+const isLoginPage = Boolean(document.getElementById("login-form"));
 
-// Simulação de Login
-document.getElementById('login').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+function getUsers() {
+  try {
+    return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
 
-    if (email && password) {
-        // Redireciona para a página home
-        window.location.href = 'home.html';
-    } else {
-        alert('Por favor, preencha todos os campos.');
-    }
-});
+function saveUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
 
-// Simulação de Cadastro
-document.getElementById('register').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
+function setMessage(text, type = "error") {
+  message.textContent = text;
+  message.classList.toggle("success", type === "success");
+}
 
-    if (email && password) {
-        alert('Cadastro realizado com sucesso!');
-        // Alternar para o formulário de login após o cadastro
-        document.getElementById('registerForm').style.display = 'none';
-        document.getElementById('loginForm').style.display = 'block';
-    } else {
-        alert('Por favor, preencha todos os campos.');
-    }
-});
+function normalizeEmail(email) {
+  return email.trim().toLowerCase();
+}
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function handleRegister(event) {
+  event.preventDefault();
+
+  const email = normalizeEmail(form.elements.email.value);
+  const password = form.elements.password.value;
+  const confirmPassword = form.elements["confirm-password"].value;
+  const users = getUsers();
+
+  if (!isValidEmail(email)) {
+    setMessage("Informe um email válido.");
+    return;
+  }
+
+  if (password.length < 8) {
+    setMessage("A senha precisa ter pelo menos 8 caracteres.");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setMessage("As senhas não conferem.");
+    return;
+  }
+
+  if (users.some((user) => user.email === email)) {
+    setMessage("Este email já está cadastrado.");
+    return;
+  }
+
+  users.push({ email, password });
+  saveUsers(users);
+  localStorage.setItem(SESSION_KEY, email);
+  setMessage("Cadastro realizado. Redirecionando...", "success");
+
+  window.setTimeout(() => {
+    window.location.href = "home.html";
+  }, 550);
+}
+
+function handleLogin(event) {
+  event.preventDefault();
+
+  const email = normalizeEmail(form.elements.email.value);
+  const password = form.elements.password.value;
+  const users = getUsers();
+  const user = users.find((item) => item.email === email && item.password === password);
+
+  if (!isValidEmail(email) || !password) {
+    setMessage("Preencha email e senha para entrar.");
+    return;
+  }
+
+  if (!user) {
+    setMessage("Email ou senha inválidos. Cadastre-se se ainda não tiver conta.");
+    return;
+  }
+
+  localStorage.setItem(SESSION_KEY, email);
+  setMessage("Login realizado. Redirecionando...", "success");
+
+  window.setTimeout(() => {
+    window.location.href = "home.html";
+  }, 450);
+}
+
+if (isRegisterPage) {
+  form.addEventListener("submit", handleRegister);
+}
+
+if (isLoginPage) {
+  form.addEventListener("submit", handleLogin);
+}

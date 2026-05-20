@@ -1,60 +1,114 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AeroSwift - Compre sua Passagem</title>
-<link rel="stylesheet" href="style/home.css">
-</head>
-<body>
-    
-    <header>
-        <h1>AeroSwift</h1>
-        <p>Compre sua passagem entre capitais brasileiras!</p>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Painel AeroSwift para simular passagens entre capitais brasileiras."
+    />
+    <title>AeroSwift | Comprar passagem</title>
+    <link rel="icon" href="images/logo-aeroswift.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/home.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand" href="index.html" aria-label="AeroSwift - página inicial">
+        <img src="images/logo-aeroswift.png" alt="AeroSwift" />
+      </a>
+      <div class="session">
+        <span id="session-email">Carregando...</span>
+        <button type="button" id="logout-button">Sair</button>
+      </div>
     </header>
-    <div id="alert-container">
-        <h4 id="alert" class="alert"></h4>
-       
-    </div>
-    <div class="container">
 
-        <div class="form-group">
-            <label for="origem">Origem:</label>
-            <select id="origem" required>
-                <option value="">Selecione uma cidade</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="destino">Destino:</label>
-            <select id="destino" required>
-                <option value="">Selecione uma cidade</option>
-            </select>
-        </div>
+    <main class="booking-layout">
+      <section class="booking-intro" aria-labelledby="booking-title">
+        <p class="eyebrow">Simulador de passagens</p>
+        <h1 id="booking-title">Escolha sua rota e veja o preço estimado.</h1>
+        <p>
+          Os valores são calculados por distância aproximada entre capitais e classe
+          selecionada. Este é um protótipo frontend sem pagamento real.
+        </p>
+      </section>
 
-        <div class="form-group">
-            <label>Classe:</label>
-            <div class="radio-group">
-                <label>
-                    <input type="radio" name="classe" value="economica" checked> Econômica
-                </label>
-                <label>
-                    <input type="radio" name="classe" value="executiva"> Executiva
-                </label>
-            </div>
-        </div>
+      <section class="booking-card" aria-labelledby="form-title">
+        <h2 id="form-title">Detalhes do voo</h2>
+        <p class="form-hint">Todos os campos são obrigatórios.</p>
 
-        <button id="calcular">Calcular Preço</button>
+        <form id="booking-form" novalidate>
+          <div class="form-grid">
+            <label class="field" for="origem">
+              <span>Origem</span>
+              <select id="origem" name="origem" required>
+                <option value="">Selecione uma capital</option>
+              </select>
+            </label>
 
-        <div id="resultado">
-            <p>Preço estimado:</p>
-            <p class="preco" id="preco">R$ 0,00</p>
-            <button class="comprar">
-                Compre aqui
-            </button>
+            <label class="field" for="destino">
+              <span>Destino</span>
+              <select id="destino" name="destino" required>
+                <option value="">Selecione uma capital</option>
+              </select>
+            </label>
+          </div>
+
+          <fieldset class="class-options">
+            <legend>Classe</legend>
+            <label>
+              <input type="radio" name="classe" value="economica" checked />
+              <span>
+                <strong>Econômica</strong>
+                <small>Preço base</small>
+              </span>
+            </label>
+            <label>
+              <input type="radio" name="classe" value="executiva" />
+              <span>
+                <strong>Executiva</strong>
+                <small>Mais conforto e 80% adicional</small>
+              </span>
+            </label>
+          </fieldset>
+
+          <p class="message" id="form-message" role="status" aria-live="polite"></p>
+          <button class="primary-action" type="submit">Calcular preço</button>
+        </form>
+      </section>
+
+      <aside class="summary-card" aria-labelledby="summary-title">
+        <p class="eyebrow">Resumo</p>
+        <h2 id="summary-title">Sua viagem</h2>
+        <dl>
+          <div>
+            <dt>Rota</dt>
+            <dd id="summary-route">Selecione origem e destino</dd>
+          </div>
+          <div>
+            <dt>Distância</dt>
+            <dd id="summary-distance">--</dd>
+          </div>
+          <div>
+            <dt>Classe</dt>
+            <dd id="summary-class">Econômica</dd>
+          </div>
+        </dl>
+        <div class="price-box">
+          <span>Preço estimado</span>
+          <strong id="summary-price">R$ 0,00</strong>
         </div>
-    </div>
-    
+        <button class="secondary-action" id="confirm-button" type="button" disabled>
+          Finalizar simulação
+        </button>
+      </aside>
+    </main>
+
     <script src="scripts/home.js"></script>
-</body>
+  </body>
 </html>
