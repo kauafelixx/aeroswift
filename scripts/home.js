@@ -137,7 +137,7 @@ function handleSubmit(event) {
 }
 
 function handleConfirm() {
-  setMessage("Simulação finalizada. Nenhum pagamento real foi processado.", "success");
+  setMessage("Reserva finalizada. Confira os dados da viagem no resumo.", "success");
 }
 
 function handleLogout() {
